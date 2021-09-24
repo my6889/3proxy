@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: 3proxy
+  labels:
+    app: 3proxy
+spec:
+  selector:
+    matchLabels:
+      app: 3proxy
+  template:
+    metadata:
+      labels:
+        app: 3proxy
+    spec:
+      hostNetwork: true
+      containers:
+      - name: 3proxy
+        image: 3proxy/3proxy:0.9.4
+        volumeMounts:
+          - name: 3proxy-configmap
+            mountPath: /etc/3proxy/3proxy.cfg
+            subPath: 3proxy.cfg
+      volumes:
+        - name: 3proxy-configmap
+          configMap:
+            name: 3proxy-configmap

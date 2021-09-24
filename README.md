@@ -1,24 +1,43 @@
 ## 设置用户名密码和服务端口
 
-修改3proxy.cfg
+修改3proxy.cfg中的用户名、密码、服务端口
 
-## 构建镜像
+## 下载项目
 
 ```
-docker build -t my6889/3proxy .
+git clone https://github.com/my6889/3proxy.git
 ```
 
 ## 运行服务
 
+### docker-compose
 ```
-docker run -ti -d -p 7777:7777 \
-       -v /var/log/3proxy:/var/log/3proxy \
-       --restart=always my6889/3proxy
+docker-compose up -d 
 ```
 
-## 连接信息
+### Kubernetes
+创建Configmap
+```
+kubectl apply -f 3proxy-configmap.yml
+```
 
-**Socks5端口：** 7777
+如果用Daemonset部署
+```
+kubectl apply -f 3proxy-daemonset.yml
+```
+
+如果用Deployment部署
+```
+kubectl apply -f 3proxy-deployment.yml
+```
+
+
+
+## 默认连接信息
+
+**Socks5端口：** 17777
+
+**HTTP端口：** 16666
 
 **用户名1：** admin
 
@@ -32,4 +51,4 @@ docker run -ti -d -p 7777:7777 \
 
 ## 备注
 
-* 应用于云服务需在安全组开放7777端口
+* 应用于云服务需在安全组或防火墙开放对应端口
